@@ -1,5 +1,4 @@
-# Ö÷Æô¶¯ÎÄ¼ş£¬ÕûºÏ Flask + Gradio
-
+# ä¸»å¯åŠ¨æ–‡ä»¶ï¼Œæ•´åˆ Flask + Gradio
 import gradio as gr
 import openai
 from flask import Flask, request, abort
@@ -7,23 +6,23 @@ from threading import Thread
 import hmac, hashlib, json
 from github import Github
 
-# ====== ÅäÖÃ²¿·Ö ======
-WEBHOOK_SECRET = b"ÄãµÄWebhookSecret"  # GitHub Webhook ÉèÖÃÖĞµÄ Secret
-GITHUB_TOKEN = "ÄãµÄGitHub·ÃÎÊÁîÅÆ"
-openai.api_key = "ÄãµÄOpenAI API Key"
+# ====== é…ç½®éƒ¨åˆ† ======
+WEBHOOK_SECRET = b"ä½ çš„WebhookSecret"  # GitHub Webhook è®¾ç½®ä¸­çš„ Secret
+GITHUB_TOKEN = "ä½ çš„GitHubè®¿é—®ä»¤ç‰Œ"
+openai.api_key = "ä½ çš„OpenAI API Key"
 # ======================
 
-# ³õÊ¼»¯ Flask ºÍ GitHub ¿Í»§¶Ë
+# åˆå§‹åŒ– Flask å’Œ GitHub å®¢æˆ·ç«¯
 app = Flask(__name__)
 g = Github(GITHUB_TOKEN)
 
-# === OpenAI ×Ü½áº¯Êı ===
+# === OpenAI æ€»ç»“å‡½æ•° ===
 def summarize_code(diff: str):
-    """½«´úÂë diff ×ª»¯Îª×ÔÈ»ÓïÑÔÕªÒª"""
+    """å°†ä»£ç  diff è½¬åŒ–ä¸ºè‡ªç„¶è¯­è¨€æ‘˜è¦"""
     response = openai.ChatCompletion.create(
         model="gpt-4",
         messages=[
-            {"role": "developer", "content": "Çë½«ÒÔÏÂ´úÂë±ä¸ü×Ü½áÎª¼òÒªËµÃ÷:"},
+            {"role": "developer", "content": "è¯·å°†ä»¥ä¸‹ä»£ç å˜æ›´æ€»ç»“ä¸ºç®€è¦è¯´æ˜:"},
             {"role": "user", "content": diff}
         ],
         temperature=0.5,
@@ -31,16 +30,16 @@ def summarize_code(diff: str):
     )
     return response.choices[0].message.content
 
-# === Gradio MCP ½Ó¿Ú ===
+# === Gradio MCP æ¥å£ ===
 gradio_interface = gr.Interface(
     fn=summarize_code,
-    inputs=gr.Textbox(lines=10, placeholder="´úÂë±ä¸ü diff"),
+    inputs=gr.Textbox(lines=10, placeholder="ä»£ç å˜æ›´ diff"),
     outputs="text",
-    title="´úÂë±ä¸üÕªÒª",
-    description="ÊäÈë GitHub PR µÄ´úÂë±ä¸ü diff£¬Êä³ö×ÔÈ»ÓïÑÔÕªÒª"
+    title="ä»£ç å˜æ›´æ‘˜è¦",
+    description="è¾“å…¥ GitHub PR çš„ä»£ç å˜æ›´ diffï¼Œè¾“å‡ºè‡ªç„¶è¯­è¨€æ‘˜è¦"
 )
 
-# === ´¦Àí PR µÄÖ÷º¯Êı ===
+# === å¤„ç† PR çš„ä¸»å‡½æ•° ===
 def handle_pull_request(owner, repo_name, pr_number):
     repo = g.get_repo(f"{owner}/{repo_name}")
     pr = repo.get_pull(pr_number)
@@ -51,10 +50,10 @@ def handle_pull_request(owner, repo_name, pr_number):
         diff_text += f"File: {f.filename}\n{f.patch}\n\n"
 
     summary = summarize_code(diff_text)
-    print(f"? PR #{pr_number} Summary:\n{summary}\n")
-    # TODO: ¿ÉĞ´ÈëÈÕÖ¾»ò×÷ÎªÆÀÂÛĞ´»Ø PR
+    print(f"âœ… PR #{pr_number} Summary:\n{summary}\n")
+    # TODO: å¯å†™å…¥æ—¥å¿—æˆ–ä½œä¸ºè¯„è®ºå†™å› PR
 
-# === Webhook ½ÓÊÕÂ·ÓÉ ===
+# === Webhook æ¥æ”¶è·¯ç”± ===
 @app.route("/webhook", methods=["POST"])
 def github_webhook():
     signature = request.headers.get("X-Hub-Signature-256", "")
@@ -76,25 +75,25 @@ def github_webhook():
         repo = payload["repository"]["name"]
         pr_number = pr["number"]
 
-        # Òì²½´¦Àí PR£¬±ÜÃâ×èÈû
+        # å¼‚æ­¥å¤„ç† PRï¼Œé¿å…é˜»å¡
         Thread(target=handle_pull_request, args=(owner, repo, pr_number)).start()
 
     return "", 204
 
-# === Æô¶¯º¯Êı ===
+# === å¯åŠ¨å‡½æ•° ===
 def run_all():
-    # Æô¶¯ Flask
+    # å¯åŠ¨ Flask
     def run_flask():
         app.run(host="0.0.0.0", port=7861)
     
-    # Æô¶¯ Gradio MCP Server
+    # å¯åŠ¨ Gradio MCP Server
     def run_gradio():
         gradio_interface.launch(server_name="0.0.0.0", server_port=7860, mcp_server=True)
     
-    # Æô¶¯Á½¸ö·şÎñ
+    # å¯åŠ¨ä¸¤ä¸ªæœåŠ¡
     Thread(target=run_flask).start()
     run_gradio()
 
-# === Èë¿Úµã ===
+# === å…¥å£ç‚¹ ===
 if __name__ == "__main__":
     run_all()
