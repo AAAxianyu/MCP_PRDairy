@@ -1,1 +1,8 @@
 # 依赖清单
+
+gradio[mcp]
+openai
+flask
+pygithub
+requests
+selenium  # 或 playwright
