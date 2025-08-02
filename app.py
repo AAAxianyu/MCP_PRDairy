@@ -1,9 +1,8 @@
-# 主启动文件，整合 Flask + Gradio
 from flask import Flask
 from threading import Thread
 from webhook_handler import github_webhook
 import gradio as gr
-from summarizer import summarize_code  # 用于 Gradio 接口
+from summarizer import summarize_code  # 现在这个函数已经集成了飞书发送功能
 
 app = Flask(__name__)
 app.add_url_rule("/webhook", view_func=github_webhook, methods=["POST"])
