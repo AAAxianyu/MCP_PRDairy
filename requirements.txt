@@ -1,8 +1,32 @@
-# 依赖清单
+# Web 框架和界面
+gradio>=4.0.0
+flask>=2.3.0
 
-gradio[mcp]
-openai
-flask
-pygithub
-requests
-selenium  # 或 playwright
+# HTTP 請求
+requests>=2.31.0
+
+# 環境變量管理
+python-dotenv>=1.0.0
+
+# AI 和機器學習
+openai>=1.0.0
+
+# 開發工具（可選）
+pytest>=7.4.0
+black>=23.0.0
+flake8>=6.0.0
+
+# 可選依賴（根據需要取消註釋）
+# 如果需要數據庫支持
+# sqlalchemy>=2.0.0
+# psycopg2-binary>=2.9.0
+
+# 如果需要緩存
+# redis>=4.6.0
+
+# 如果需要任務隊列
+# celery>=5.3.0
+
+# 如果需要其他 AI 模型
+# transformers>=4.30.0
+# torch>=2.0.0 

@@ -1,0 +1,62 @@
+{
+  "service_name": "MCP&Agent挑战赛 - GitHub PR 日记服务器",
+  "mcp_server_name": "github_pr_dairy_server",
+  "description": "基于 Gradio 和 MCP 协议的 GitHub PR 监听服务器，自动总结 PR 内容并发送到飞书知识库",
+  "version": "1.0.0",
+  "author": "MCP_Agent_Challenge",
+  "tags": ["MCP", "GitHub", "AI", "飞书", "开发日记"],
+  "deployment": {
+    "entry_point": "main.py",
+    "port": 7860,
+    "requirements": "requirements.txt",
+    "environment_variables": [
+      "GITHUB_REPO_URL",
+      "GITHUB_TOKEN", 
+      "WEBHOOK_SECRET",
+      "OPENAI_API_KEY",
+      "FEISHU_TOKEN",
+      "FEISHU_URL"
+    ]
+  },
+  "features": {
+    "github_webhook": {
+      "description": "监听 GitHub PR 事件",
+      "endpoint": "/webhook",
+      "methods": ["POST"]
+    },
+    "ai_summarization": {
+      "description": "使用 OpenAI GPT-4 总结 PR 内容",
+      "model": "gpt-4",
+      "language": "zh-TW"
+    },
+    "feishu_integration": {
+      "description": "发送总结到飞书知识库",
+      "format": "结构化文档"
+    },
+    "gradio_interface": {
+      "description": "Web 配置界面",
+      "theme": "Soft",
+      "tabs": ["配置", "控制", "日志"]
+    },
+    "mcp_server": {
+      "description": "MCP 协议支持",
+      "enabled": true,
+      "server_name": "github_pr_dairy_server"
+    }
+  },
+  "documentation": {
+    "readme": "README.md",
+    "api_docs": "包含详细的 API 文档和使用指南",
+    "examples": "提供完整的配置和使用示例"
+  },
+  "security": {
+    "webhook_verification": true,
+    "environment_variables": true,
+    "https_only": true
+  },
+  "monitoring": {
+    "health_check": "/health",
+    "logging": "详细的执行日志",
+    "status_endpoint": "内部状态监控"
+  }
+} 
