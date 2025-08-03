@@ -71,6 +71,11 @@ FEISHU_URL=https://open.feishu.cn/open-apis/docx/v1/spaces/your_space_id/documen
 ```
 
 ### 4. 启动服务
+# 测试
+```bash
+python mcp_server_simple.py
+```
+
 
 ```bash
 python main.py
