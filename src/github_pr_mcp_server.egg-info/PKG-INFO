@@ -1,3 +1,38 @@
+Metadata-Version: 2.4
+Name: github-pr-mcp-server
+Version: 1.0.3
+Summary: GitHub PR MCP Server - MCP&Agent Challenge
+Author-email: MCP&Agent Challenge <challenge@example.com>
+License: MIT
+Project-URL: Homepage, https://github.com/your-username/github-pr-mcp-server
+Project-URL: Repository, https://github.com/your-username/github-pr-mcp-server
+Project-URL: Documentation, https://github.com/your-username/github-pr-mcp-server#readme
+Project-URL: Issues, https://github.com/your-username/github-pr-mcp-server/issues
+Keywords: mcp,github,pr,webhook,ai,gradio,flask
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Internet :: WWW/HTTP :: HTTP Servers
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: gradio[mcp]==5.39.0
+Requires-Dist: mcp==1.10.1
+Requires-Dist: flask==3.0.3
+Requires-Dist: openai==1.93.0
+Requires-Dist: requests==2.32.3
+Requires-Dist: python-dotenv==1.1.1
+Provides-Extra: dev
+Requires-Dist: pytest>=7.4.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: flake8>=6.0.0; extra == "dev"
+
 # GitHub PR MCP Server - MCP&Agent Challenge
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
